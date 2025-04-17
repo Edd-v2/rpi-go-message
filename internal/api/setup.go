@@ -1,12 +1,12 @@
 package api
 
 import (
-	"github.com/Edd-v2/rpi-go-message/src/internal/api/auth"
-	"github.com/Edd-v2/rpi-go-message/src/internal/api/group"
-	"github.com/Edd-v2/rpi-go-message/src/internal/api/user"
-
-	"github.com/Edd-v2/rpi-go-message/src/internal/api/system"
-	auth_middleware "github.com/Edd-v2/rpi-go-message/src/internal/middleware/auth"
+	"github.com/Edd-v2/rpi-go-message/internal/api/auth"
+	"github.com/Edd-v2/rpi-go-message/internal/api/chat"
+	"github.com/Edd-v2/rpi-go-message/internal/api/group"
+	"github.com/Edd-v2/rpi-go-message/internal/api/system"
+	"github.com/Edd-v2/rpi-go-message/internal/api/user"
+	auth_middleware "github.com/Edd-v2/rpi-go-message/internal/middleware/auth"
 	"github.com/sirupsen/logrus"
 
 	"github.com/gin-gonic/gin"
@@ -17,6 +17,7 @@ func SetupRoutes(router *gin.Engine, log *logrus.Logger) {
 
 	authHandler := auth.NewHandler(log)
 	userHandler := user.NewHandler(log)
+	chatHandler := chat.NewHandler(log)
 	groupHandler := group.NewHandler(log)
 	systemHandler := system.NewHandler(log)
 
@@ -25,6 +26,12 @@ func SetupRoutes(router *gin.Engine, log *logrus.Logger) {
 	{
 		authGroup.POST("/register", authHandler.RegisterHandler)
 		authGroup.POST("/login", authHandler.LoginHandler)
+	}
+
+	chatGroup := api.Group("/chat")
+	chatGroup.Use(auth_middleware.JWTAuthMiddleware(log))
+	{
+		chatGroup.POST("/start", chatHandler.StartChatHandler)
 	}
 
 	// User (JWT protected)
