@@ -41,7 +41,7 @@ func SetupRoutes(router *gin.Engine, log *logrus.Logger) {
 	userGroup.Use(auth_middleware.JWTAuthMiddleware(log))
 	{
 		userGroup.GET("/me", userHandler.MeHandler)
-		userGroup.GET("/search", userHandler.MeHandler)
+		userGroup.GET("/search", userHandler.SearchHandler)
 	}
 
 	// Group (JWT protected)
