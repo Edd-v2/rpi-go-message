@@ -19,3 +19,13 @@ type UserResponse struct {
 type AuthResponse struct {
 	Token string `json:"token"`
 }
+
+type StartChatRequest struct {
+	TargetID string `json:"target_id" binding:"required"`
+}
+
+type ChatResponse struct {
+	ID      string   `json:"id"`
+	Members []string `json:"members"`
+	IsGroup bool     `json:"is_group"`
+}
