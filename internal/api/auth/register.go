@@ -3,8 +3,8 @@ package auth
 import (
 	"net/http"
 
-	"github.com/Edd-v2/rpi-go-message/src/dto"
-	"github.com/Edd-v2/rpi-go-message/src/internal/service"
+	"github.com/Edd-v2/rpi-go-message/dto"
+	"github.com/Edd-v2/rpi-go-message/internal/service"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 )
