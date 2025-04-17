@@ -40,5 +40,20 @@ func (h *Handler) RegisterHandler(c *gin.Context) {
 }
 
 func (h *Handler) LoginHandler(c *gin.Context) {
+	var req dto.LoginRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		h.log.Warnf("[auth] Invalid login input: %v", err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
+		return
+	}
 
+	token, err := service.LoginUser(req, h.log)
+	if err != nil {
+		h.log.Warnf("[auth] Login failed: %v", err)
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid credentials"})
+		return
+	}
+
+	h.log.Infof("[auth] Login successful for phone: %s", req.Phone)
+	c.JSON(http.StatusOK, dto.AuthResponse{Token: token})
 }
