@@ -3,10 +3,10 @@ package service
 import (
 	"errors"
 
-	"github.com/Edd-v2/rpi-go-message/internal/dto"
-	"github.com/Edd-v2/rpi-go-message/internal/model/db"
-	"github.com/Edd-v2/rpi-go-message/internal/repository"
+	"github.com/Edd-v2/rpi-go-message/src/dto"
 	"github.com/Edd-v2/rpi-go-message/src/internal/middleware/auth"
+	"github.com/Edd-v2/rpi-go-message/src/internal/model/db"
+	"github.com/Edd-v2/rpi-go-message/src/internal/repository"
 	"github.com/sirupsen/logrus"
 )
 

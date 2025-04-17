@@ -3,8 +3,8 @@ package auth
 import (
 	"net/http"
 
-	"github.com/Edd-v2/rpi-go-message/internal/dto"
-	"github.com/Edd-v2/rpi-go-message/internal/service"
+	"github.com/Edd-v2/rpi-go-message/src/dto"
+	"github.com/Edd-v2/rpi-go-message/src/internal/service"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 )
@@ -37,4 +37,8 @@ func (h *Handler) RegisterHandler(c *gin.Context) {
 
 	h.log.Infof("[auth] User %s registered successfully", req.Username)
 	c.JSON(http.StatusOK, dto.AuthResponse{Token: token})
+}
+
+func (h *Handler) LoginHandler(c *gin.Context) {
+
 }
