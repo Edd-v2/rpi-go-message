@@ -3,7 +3,7 @@ package api
 import (
 	"github.com/Edd-v2/rpi-go-message/src/internal/api/auth"
 	"github.com/Edd-v2/rpi-go-message/src/internal/api/group"
-	user_api "github.com/Edd-v2/rpi-go-message/src/internal/api/user"
+	"github.com/Edd-v2/rpi-go-message/src/internal/api/user"
 
 	"github.com/Edd-v2/rpi-go-message/src/internal/api/system"
 	auth_middleware "github.com/Edd-v2/rpi-go-message/src/internal/middleware/auth"
@@ -16,8 +16,9 @@ func SetupRoutes(router *gin.Engine, log *logrus.Logger) {
 	api := router.Group("/api")
 
 	authHandler := auth.NewHandler(log)
-	userHandler := user_api.NewHandler(log)
+	userHandler := user.NewHandler(log)
 	groupHandler := group.NewHandler(log)
+	systemHandler := system.NewHandler(log)
 
 	// Auth
 	authGroup := api.Group("/auth")
@@ -44,9 +45,9 @@ func SetupRoutes(router *gin.Engine, log *logrus.Logger) {
 	}
 
 	// System (public)
-	api.GET("/healthz", system.HealthHandler)
-	api.GET("/readyz", system.ReadyHandler)
-	api.GET("/metrics", system.MetricsHandler)
+	api.GET("/healthz", systemHandler.HealthHandler)
+	api.GET("/readyz", systemHandler.ReadyHandler)
+	api.GET("/metrics", systemHandler.MetricsHandler)
 
 	log.Debug("[READY] Api SetupRoutes done...")
 }
