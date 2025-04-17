@@ -4,7 +4,7 @@ import (
 	"errors"
 	"time"
 
-	"github.com/Edd-v2/rpi-go-message/src/config"
+	"github.com/Edd-v2/rpi-go-message/config"
 	"github.com/golang-jwt/jwt/v5"
 )
 
