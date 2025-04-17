@@ -32,6 +32,8 @@ func SetupRoutes(router *gin.Engine, log *logrus.Logger) {
 	chatGroup.Use(auth_middleware.JWTAuthMiddleware(log))
 	{
 		chatGroup.POST("/start", chatHandler.StartChatHandler)
+		chatGroup.GET("/all", chatHandler.GetChatHandler)
+
 	}
 
 	// User (JWT protected)

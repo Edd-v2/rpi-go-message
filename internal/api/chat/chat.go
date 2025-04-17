@@ -42,3 +42,16 @@ func (h *Handler) StartChatHandler(c *gin.Context) {
 
 	c.JSON(http.StatusOK, resp)
 }
+
+func (h *Handler) GetChatHandler(c *gin.Context) {
+	userID := c.MustGet("userId").(string)
+
+	chats, err := service.GetUserChats(userID, h.log)
+	if err != nil {
+		h.log.Errorf("[chat] GetUserChats error: %v", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch chats"})
+		return
+	}
+
+	c.JSON(http.StatusOK, chats)
+}

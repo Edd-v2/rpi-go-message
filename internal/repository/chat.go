@@ -47,3 +47,37 @@ func FindOrCreatePrivateChat(userID, targetID string, log *logrus.Logger) (*db_m
 	log.Infof("[repository] new chat created")
 	return &chat, nil
 }
+
+func GetChatsByUserID(userID string) ([]*db_model.Chat, error) {
+	coll := db.MongoClient.Database("rpi").Collection("chats")
+	objID, _ := primitive.ObjectIDFromHex(userID)
+
+	cursor, err := coll.Find(context.TODO(), bson.M{
+		"members": objID,
+	})
+	if err != nil {
+		return nil, err
+	}
+	defer cursor.Close(context.TODO())
+
+	var chats []*db_model.Chat
+	if err := cursor.All(context.TODO(), &chats); err != nil {
+		return nil, err
+	}
+	return chats, nil
+}
+
+func FindMessageByID(id string) (*db_model.Message, error) {
+	objID, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return nil, err
+	}
+	coll := db.MongoClient.Database("rpi").Collection("messages")
+
+	var msg db_model.Message
+	err = coll.FindOne(context.TODO(), bson.M{"_id": objID}).Decode(&msg)
+	if err != nil {
+		return nil, err
+	}
+	return &msg, nil
+}
