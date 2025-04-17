@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/Edd-v2/rpi-go-message/src/config"
+	"github.com/Edd-v2/rpi-go-message/config"
 	"github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"

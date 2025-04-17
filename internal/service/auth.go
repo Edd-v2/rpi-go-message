@@ -3,10 +3,10 @@ package service
 import (
 	"errors"
 
-	"github.com/Edd-v2/rpi-go-message/src/dto"
-	"github.com/Edd-v2/rpi-go-message/src/internal/middleware/auth"
-	"github.com/Edd-v2/rpi-go-message/src/internal/model/db"
-	"github.com/Edd-v2/rpi-go-message/src/internal/repository"
+	"github.com/Edd-v2/rpi-go-message/dto"
+	"github.com/Edd-v2/rpi-go-message/internal/middleware/auth"
+	"github.com/Edd-v2/rpi-go-message/internal/model/db"
+	"github.com/Edd-v2/rpi-go-message/internal/repository"
 	"github.com/sirupsen/logrus"
 )
 
@@ -44,5 +44,26 @@ func RegisterUser(input dto.RegisterRequest, log *logrus.Logger) (string, error)
 	}
 
 	log.Infof("[service] User %s created successfully", user.Username)
+	return token, nil
+}
+
+func LoginUser(input dto.LoginRequest, log *logrus.Logger) (string, error) {
+	user, err := repository.FindUserByPhone(input.Phone)
+	if err != nil {
+		log.Warnf("[service] User not found: %s", input.Phone)
+		return "", errors.New("invalid credentials")
+	}
+
+	if !auth.CheckPassword(user.Password, input.Password) {
+		log.Warnf("[service] Invalid password for: %s", input.Phone)
+		return "", errors.New("invalid credentials")
+	}
+
+	token, err := auth.GenerateToken(user.ID.Hex())
+	if err != nil {
+		log.Errorf("[service] Failed to generate token: %v", err)
+		return "", err
+	}
+
 	return token, nil
 }
