@@ -1,0 +1,22 @@
+mongo:
+  host: "mongo"
+  port: "27017"
+  username: "admin"
+  password: "admin"
+
+server:
+  port: "5005"
+  host: "0.0.0.0"
+  mode: "debug"
+
+logging:
+  level: "debug"
+  format: "json"
+
+metrics:
+  enabled: true
+  path: "/metrics"
+
+auth:
+  jwt_secret: "supersecretkey"
+  token_expiration: 60
