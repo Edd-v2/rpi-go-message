@@ -3,11 +3,10 @@ package service
 import (
 	"errors"
 
-	"github.com/Edd-v2/rpi-go-message/internal/auth/hash"
-	"github.com/Edd-v2/rpi-go-message/internal/auth/jwt"
 	"github.com/Edd-v2/rpi-go-message/internal/dto"
-	"github.com/Edd-v2/rpi-go-message/internal/model"
+	"github.com/Edd-v2/rpi-go-message/internal/model/db"
 	"github.com/Edd-v2/rpi-go-message/internal/repository"
+	"github.com/Edd-v2/rpi-go-message/src/internal/middleware/auth"
 	"github.com/sirupsen/logrus"
 )
 
@@ -20,13 +19,13 @@ func RegisterUser(input dto.RegisterRequest, log *logrus.Logger) (string, error)
 		return "", errors.New("user already exists")
 	}
 
-	hashed, err := hash.HashPassword(input.Password)
+	hashed, err := auth.HashPassword(input.Password)
 	if err != nil {
 		log.Errorf("[service] Failed to hash password: %v", err)
 		return "", err
 	}
 
-	user := &model.User{
+	user := &db.User{
 		Username: input.Username,
 		Phone:    input.Phone,
 		Password: hashed,
@@ -38,7 +37,7 @@ func RegisterUser(input dto.RegisterRequest, log *logrus.Logger) (string, error)
 		return "", err
 	}
 
-	token, err := jwt.GenerateToken(user.ID.Hex())
+	token, err := auth.GenerateToken(user.ID.Hex())
 	if err != nil {
 		log.Errorf("[service] Failed to generate JWT: %v", err)
 		return "", err

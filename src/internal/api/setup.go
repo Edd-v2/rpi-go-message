@@ -39,7 +39,7 @@ func SetupRoutes(router *gin.Engine, log *logrus.Logger) {
 	{
 		groupGroup.POST("/create", groupHandler.CreateHandler)
 		groupGroup.POST("/:id/invite", groupHandler.InviteHandler)
-		groupGroup.GET("/:id/messages", groupHandler.MessagesHandler)
+		groupGroup.GET("/:id/messages", groupHandler.GetMessagesHandler)
 	}
 
 	// System (public)
