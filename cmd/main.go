@@ -1,10 +1,10 @@
 package cmd
 
 import (
-	"github.com/Edd-v2/rpi-go-message/src/config"
-	"github.com/Edd-v2/rpi-go-message/src/internal/api"
-	"github.com/Edd-v2/rpi-go-message/src/internal/db"
-	"github.com/Edd-v2/rpi-go-message/src/logger"
+	"github.com/Edd-v2/rpi-go-message/config"
+	"github.com/Edd-v2/rpi-go-message/internal/api"
+	"github.com/Edd-v2/rpi-go-message/internal/db"
+	"github.com/Edd-v2/rpi-go-message/logger"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 )
